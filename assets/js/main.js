@@ -55,38 +55,60 @@ window.onload = function(){
    let language = localStorage.getItem("language");
 
    if(language) {
-      $("#lang").val(language);
+      languages[language]();
+   }
+   else {
+      languages.EN();
    }
 
-   loadTokens()
-   changeCV()
+   $("#ES").click(function() {
+      languages.ES();
+   })
 
-   $("#lang").change(function() {
-      localStorage.setItem("language", $("#lang").val());
-      loadTokens()
-      changeCV()
-  });
+   $("#EN").click(function() {
+      languages.EN();
+   })
+
+   $("#main-container").css("visibility", "visible");
+
+}
+
+const languages = {
+   ES: function() {
+      localStorage.setItem("language", "ES");
+      $("#EN").addClass("inactive-flag")
+      $("#ES").removeClass("inactive-flag")
+      loadTokens("es")
+      changeCV("es")
+   },
+   EN: function() {
+      localStorage.setItem("language", "EN");
+      $("#ES").addClass("inactive-flag")
+      $("#EN").removeClass("inactive-flag")
+      loadTokens("en")
+      changeCV("en")
+   }
 }
 
 
-function loadTokens(){
+function loadTokens(language){
    for(let token of Object.keys(tokens)){
       let id = "#" + token
-      $(id).text(tokens[token][$("#lang").val()]);
+      $(id).text(tokens[token][language]);
       if(Object.keys(repeatTokens).includes(token)){
          for(let i=1; i<repeatTokens[token]; i++){
             let iterationId = id + "-" + i
-            $(iterationId).text(tokens[token][$("#lang").val()]);
+            $(iterationId).text(tokens[token][language]);
          }
       }
    }
 }
 
-function changeCV(){
-   if ($("#lang").val() == "es"){
-      $("#RESUME").attr("href", "https://drive.google.com/file/d/14qDsh7B6YCWkpBOaAkY4yWE9uw9yxLp1/view?usp=sharing");
+function changeCV(language){
+   if (language == "es"){
+      $("#RESUME").attr("href", "https://docs.google.com/document/d/1Me1wIG1z9OQ4GvMWTl4XQXmWq8r5GnCS6NbCZE7Un8M/edit?usp=sharingg");
    }
    else {
-      $("#RESUME").attr("href", "https://drive.google.com/file/d/1UgICWTs_hdK6wR-eK2h6XCuTaumgwZfy/view?usp=drive_link");
+      $("#RESUME").attr("href", "https://docs.google.com/document/d/1_PWnOnvox4e9j6bDR3Yp-ez_-HtusRVGzdvd4Ekxzck/edit?usp=sharing");
    }
 }

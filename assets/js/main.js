@@ -54,7 +54,7 @@ window.onload = function(){
 
    let language = localStorage.getItem("language");
 
-   if(language) {
+   if(["ES", "EN"].includes(language)) {
       languages[language]();
    }
    else {
